@@ -1,0 +1,119 @@
+---
+Name: websphere
+Cartridge-Short-Name: WEBSPHERE
+Display-Name: IBM WebSphere Application Server for Developers
+Description: IBM® WebSphere® Application Server for Developers provides access to the development runtime when production runtime capabilities matter. It is a no-charge development runtime. This software helps to enable faster, more efficient development of applications and services, and is available without the expense of a priced and supported runtime on the developer’s desktop.
+Version: '8.5.5.1'
+License: Commercial
+License-Url: http://www-03.ibm.com/software/products/en/appserv-wasfordev/
+Vendor: hoffmann
+Cartridge-Version: 0.0.1
+Compatible-Versions: []
+Cartridge-Vendor: hoffmann
+Categories:
+- service
+- web_framework
+- java
+- ibm
+- java_ee_6
+- was
+Website: http://www-03.ibm.com/software/products/en/appserv-wasfordev/
+Help-Topics:
+  Developer Center: https://www.openshift.com/developers
+Provides:
+- was-8.5
+- was
+- was-unmanaged
+Publishes:
+Subscribes:
+  set-env:
+    Type: ENV:*
+    Required: false
+  set-doc-url:
+    Type: STRING:urlpath
+    Required: false
+Scaling:
+  Min: 1
+  Max: 1
+Endpoints:
+- Private-IP-Name: IP
+  Private-Port-Name: WC_DEFAULTHOST_PORT
+  Private-Port: 9080
+  Public-Port-Name: HTTP_PROXY_PORT
+  Protocols:
+  - http
+  - ws
+  Options:
+    primary: true
+  Mappings:
+  - Frontend: ''
+    Backend: ''
+    Options:
+      websocket: true
+  - Frontend: /health
+    Backend: ''
+    Options:
+      health: true
+- Private-IP-Name: IP
+  Private-Port-Name: WC_ADMINHOST_PORT
+  Private-Port: 9060
+  Public-Port-Name: WC_ADMINHOST_PROXY_PORT
+- Private-IP-Name: IP
+  Private-Port-Name: WC_DEFAULTHOST_SECURE_PORT
+  Private-Port: 9443
+  Public-Port-Name: WC_DEFAULTHOST_SECURE_PROXY_PORT
+- Private-IP-Name: IP
+  Private-Port-Name: WC_ADMINHOST_SECURE_PORT
+  Private-Port: 9043
+  Public-Port-Name: WC_ADMINHOST_SECURE_PROXY_PORT
+- Private-IP-Name: IP
+  Private-Port-Name: BOOTSTRAP_ADDRESS_PORT
+  Private-Port: 2809
+  Public-Port-Name: BOOTSTRAP_ADDRESS_PROXY_PORT
+- Private-IP-Name: IP
+  Private-Port-Name: SOAP_CONNECTOR_ADDRESS_PORT
+  Private-Port: 8880
+- Private-IP-Name: IP
+  Private-Port-Name: IPC_CONNECTOR_ADDRESS_PORT
+  Private-Port: 9633
+- Private-IP-Name: IP
+  Private-Port-Name: SAS_SSL_SERVERAUTH_LISTENER_ADDRESS_PORT
+  Private-Port: 9401
+- Private-IP-Name: IP
+  Private-Port-Name: CSIV2_SSL_SERVERAUTH_LISTENER_ADDRESS_PORT
+  Private-Port: 9403
+- Private-IP-Name: IP
+  Private-Port-Name: CSIV2_SSL_MUTUALAUTH_LISTENER_ADDRESS_PORT
+  Private-Port: 9402
+- Private-IP-Name: IP
+  Private-Port-Name: ORB_LISTENER_ADDRESS_PORT
+  Private-Port: 9100
+- Private-IP-Name: IP
+  Private-Port-Name: DCS_UNICAST_ADDRESS_PORT
+  Private-Port: 9353
+- Private-IP-Name: IP
+  Private-Port-Name: SIB_ENDPOINT_ADDRESS_PORT
+  Private-Port: 7276
+- Private-IP-Name: IP
+  Private-Port-Name: SIB_ENDPOINT_SECURE_ADDRESS_PORT
+  Private-Port: 7286
+- Private-IP-Name: IP
+  Private-Port-Name: SIB_MQ_ENDPOINT_ADDRESS_PORT
+  Private-Port: 5558
+- Private-IP-Name: IP
+  Private-Port-Name: SIB_MQ_ENDPOINT_SECURE_ADDRESS_PORT
+  Private-Port: 5578
+- Private-IP-Name: IP
+  Private-Port-Name: SIP_DEFAULTHOST_PORT
+  Private-Port: 5060
+- Private-IP-Name: IP
+  Private-Port-Name: SIP_DEFAULTHOST_SECURE_PORT
+  Private-Port: 5061
+- Private-IP-Name: IP
+  Private-Port-Name: OVERLAY_UDP_LISTENER_ADDRESS_PORT
+  Private-Port: 11003
+- Private-IP-Name: IP
+  Private-Port-Name: OVERLAY_TCP_LISTENER_ADDRESS_PORT
+  Private-Port: 11004
+Additional-Control-Actions:
+- threaddump

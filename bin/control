@@ -1,0 +1,80 @@
+#!/bin/bash
+
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+export PATH=${OPENSHIFT_WEBSPHERE_PROFILE}/bin:$PATH
+
+export STOPTIMEOUT=10
+
+function is_running {
+  pidfile=${OPENSHIFT_WEBSPHERE_PROFILE}/logs/${OPENSHIFT_WEBSPHERE_SERVERNAME}/${OPENSHIFT_WEBSPHERE_SERVERNAME}.pid
+
+  if [ -f $pidfile ]; then
+    pid=`cat $pidfile 2> /dev/null`
+
+    if `ps --pid $pid > /dev/null 2>&1` 
+    then
+      return 0
+    fi
+  fi
+
+  return 1
+}
+
+function start {
+  if ! is_running; then
+    echo "Starting ${OPENSHIFT_WEBSPHERE_SERVERNAME} using: startServer.sh ${OPENSHIFT_WEBSPHERE_SERVERNAME}"
+    ${OPENSHIFT_WEBSPHERE_PROFILE}/bin/startServer.sh ${OPENSHIFT_WEBSPHERE_SERVERNAME}
+  else
+    echo "Websphere already running" 1>&2
+  fi
+}
+
+function stop {
+  if is_running; then
+    pidfile=${OPENSHIFT_WEBSPHERE_PROFILE}/logs/${OPENSHIFT_WEBSPHERE_SERVERNAME}/${OPENSHIFT_WEBSPHERE_SERVERNAME}.pid
+
+    if [ -f $pidfile ]; then
+      pid=$( /bin/cat $pidfile )
+      /bin/kill $pid
+      ret=$?
+      if [ $ret -eq 0 ]; then
+        TIMEOUT="$STOPTIMEOUT"
+        while [ $TIMEOUT -gt 0 ] && [ -f "$pidfile" ]
+        do
+          /bin/kill -0 "$pid" >/dev/null 2>&1 || break
+          sleep 1
+          let TIMEOUT=${TIMEOUT}-1
+        done
+      fi
+    else
+      echo "Websphere already stopped" 1>&2
+    fi
+  fi
+}
+
+function status {
+  if is_running; then
+    client_result "Websphere is running" 
+  else
+    client_result "Websphere is stopped" 
+  fi
+
+  exit 0
+}
+
+case "$1" in
+  start)
+    start
+  ;;
+  stop)
+    stop
+  ;;
+  status)
+    status
+  ;;
+  restart)
+    stop
+    start
+  ;;
+esac
