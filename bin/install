@@ -36,7 +36,7 @@ ${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create \
 -profileName ${OPENSHIFT_APP_NAME} \
 -profilePath ${OPENSHIFT_DATA_DIR}profile \
 -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ \
--adminUsername ${username} \
+-adminUserName ${username} \
 -adminPassword ${password} \
 -applyPerfTuningSetting development \
 -enableAdminSecurity true \
