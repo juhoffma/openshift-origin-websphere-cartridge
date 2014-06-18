@@ -32,5 +32,14 @@ echo "server1" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_SERVERNAME
 
 ln -s ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION} ${OPENSHIFT_WEBSPHERE_DIR}/install
 
-${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create -profileName ${OPENSHIFT_APP_NAME} -profilePath ${OPENSHIFT_DATA_DIR}/profile -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ -adminUsername ${username} -adminPassword ${password} -applyPerfTuningSetting development
+${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create \
+-profileName ${OPENSHIFT_APP_NAME} \
+-profilePath ${OPENSHIFT_DATA_DIR}/profile \
+-templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ \
+-adminUsername ${username} \
+-adminPassword ${password} \
+-applyPerfTuningSetting development \
+-enableAdminSecurity true \
+-hostName ${OPENSHIFT_WEBSPHERE_IP}
+
 
