@@ -35,7 +35,7 @@ Installation of the cartridge
 ToDo's
 ------
 
-[ ] Work with managed profiles
-[ ] Support Marker Files for different JDK's
-[ ] Enable Deployments through deployable apps
-[ ] Provide a build lifecycle a la JBoss Cartridge
+- [ ] Work with managed profiles
+- [ ] Support Marker Files for different JDK's
+- [ ] Enable Deployments through deployable apps
+- [ ] Provide a build lifecycle a la JBoss Cartridge
