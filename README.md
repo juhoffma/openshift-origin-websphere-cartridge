@@ -25,7 +25,9 @@ Installation of the cartridge
 -----------------------------
 
 ```
-# oo-admin-cartridge --action install --source https://github.com/juhoffma/openshift-origin-websphere-cartridge.git
+# cd /usr/libexec/openshift/cartridges
+# git clone https://github.com/juhoffma/openshift-origin-websphere-cartridge.git
+# oo-admin-cartridge --action install --recursive --source /usr/libexec/openshift/cartridges
 # oo-admin-ctl-cartridge --activate -c import-node --obsolete
 # oo-admin-broker-cache --clear && oo-admin-console-cache --clear
 ```
