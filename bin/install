@@ -34,7 +34,7 @@ ln -s ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION} ${OPENSHIFT_WEBSPHERE_DIR}/install
 
 ${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create \
 -profileName ${OPENSHIFT_APP_NAME} \
--profilePath ${OPENSHIFT_DATA_DIR}/profile \
+-profilePath ${OPENSHIFT_DATA_DIR}profile \
 -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ \
 -adminUsername ${username} \
 -adminPassword ${password} \
