@@ -27,7 +27,9 @@ Installation of the cartridge
 -----------------------------
 
 ```
-# oo-admin-cartridge --action install --source https://github.com/juhoffma/openshift-origin-websphere-cartridge.git
+# cd /usr/libexec/openshift/cartridges
+# git clone https://github.com/juhoffma/openshift-origin-websphere-cartridge.git
+# oo-admin-cartridge --action install --recursive --source /usr/libexec/openshift/cartridges
 # oo-admin-ctl-cartridge --activate -c import-node --obsolete
 # oo-admin-broker-cache --clear && oo-admin-console-cache --clear
 ```
@@ -39,8 +41,15 @@ Hot Deployment is accomplised by using WebSphere's "Monitored Directory Deployme
 ToDo's
 ------
 
+<<<<<<< HEAD
 [ ] Work with managed profiles
 [ ] Support Marker Files for different JDK's
 [X] Enable Deployments through deployable apps
 [ ] Provide a build lifecycle a la JBoss Cartridge
 [ ] Integrate Server's SysOut log in development tooling
+=======
+- [ ] Work with managed profiles
+- [ ] Support Marker Files for different JDK's
+- [ ] Enable Deployments through deployable apps
+- [ ] Provide a build lifecycle a la JBoss Cartridge
+>>>>>>> 1d3ed64ea45e15a51b74f536658d066ffe1d0406
