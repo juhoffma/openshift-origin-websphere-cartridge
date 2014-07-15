@@ -1,5 +1,9 @@
 #!/bin/bash -e
-
+echo ''
+echo '######################################################################'
+echo '# INSTALL                                                            #'
+echo '######################################################################'
+echo ''
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 case "$1" in
@@ -11,7 +15,8 @@ echo "$version" > "$OPENSHIFT_WEBSPHERE_DIR/env/OPENSHIFT_WEBSPHERE_VERSION"
 
 echo 'Generating username and password'
 
-username=$(generate_username)
+#username=$(generate_username)
+username="admin"
 password=$(generate_password)
 
 echo "$username" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_ADMIN_USERNAME
@@ -22,15 +27,31 @@ client_result "Websphere version: ${version} created.  Please make note of these
 client_result ""
 client_result "       Username: $username"
 client_result "       Password: $password"
-client_result "        Profile: $OPENSHIFT_APP_NAME"
 client_result ""
-
 client_result ""
 
 echo "${OPENSHIFT_DATA_DIR}/profile" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_PROFILE
 echo "server1" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_SERVERNAME
 
+# Create softlink to WebSphere binary installation
 ln -s ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION} ${OPENSHIFT_WEBSPHERE_DIR}/install
 
-${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create -profileName ${OPENSHIFT_APP_NAME} -profilePath ${OPENSHIFT_DATA_DIR}/profile -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ -adminUsername ${username} -adminPassword ${password} -applyPerfTuningSetting development
+# Create WebSphere Profile
+log_manageprofiles_result=`${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create -profileName ${OPENSHIFT_GEAR_UUID} -profilePath ${OPENSHIFT_DATA_DIR}/profile -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ -enableAdminSecurity true -adminUserName ${username} -adminPassword ${password} -hostName ${OPENSHIFT_GEAR_DNS} -applyPerfTuningSetting development -cellName OpenShiftCell -nodeName OpenShiftNode01`
+log_manageprofiles_abouthisprofile=`cat ${OPENSHIFT_DATA_DIR}/profile/logs/AboutThisProfile.txt`
 
+# Customize WebSphere Profile
+${OPENSHIFT_DATA_DIR}/profile/bin/wsadmin.sh -lang jython -conntype NONE -f ${OPENSHIFT_WEBSPHERE_DIR}/usr/wsadmin_customizeWebSphereProfile.py
+
+# Create Hot Deployment Dir
+mkdir ${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps
+
+client_result "$log_manageprofiles_result"
+client_result ""
+client_result ""
+client_result "$log_manageprofiles_abouthisprofile"
+
+echo ''
+echo '######################################################################'
+echo '######################################################################'
+echo ''
