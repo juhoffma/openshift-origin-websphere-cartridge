@@ -40,16 +40,9 @@ Hot Deployment is accomplised by using WebSphere's "Monitored Directory Deployme
 
 ToDo's
 ------
-
-<<<<<<< HEAD
+ 
 [ ] Work with managed profiles
 [ ] Support Marker Files for different JDK's
 [X] Enable Deployments through deployable apps
 [ ] Provide a build lifecycle a la JBoss Cartridge
 [ ] Integrate Server's SysOut log in development tooling
-=======
-- [ ] Work with managed profiles
-- [ ] Support Marker Files for different JDK's
-- [ ] Enable Deployments through deployable apps
-- [ ] Provide a build lifecycle a la JBoss Cartridge
->>>>>>> 1d3ed64ea45e15a51b74f536658d066ffe1d0406

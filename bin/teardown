@@ -8,4 +8,4 @@ case "$1" in
 esac
 
 
-${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -delete -profileName ${OPENSHIFT_APP_NAME} 
+${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -delete -profileName ${OPENSHIFT_GEAR_UUID} 
