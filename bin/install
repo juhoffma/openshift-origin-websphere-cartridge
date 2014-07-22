@@ -15,7 +15,7 @@ echo "$version" > "$OPENSHIFT_WEBSPHERE_DIR/env/OPENSHIFT_WEBSPHERE_VERSION"
 
 echo 'Generating username and password'
 
-#username=$(generate_username)
+servername="server1"
 username="admin"
 password=$(generate_password)
 
@@ -31,7 +31,7 @@ client_result ""
 client_result ""
 
 echo "${OPENSHIFT_DATA_DIR}/profile" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_PROFILE
-echo "server1" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_SERVERNAME
+echo "$servername" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_SERVERNAME
 
 # Create softlink to WebSphere binary installation
 ln -s ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION} ${OPENSHIFT_WEBSPHERE_DIR}/install
@@ -45,6 +45,10 @@ ${OPENSHIFT_DATA_DIR}/profile/bin/wsadmin.sh -lang jython -conntype NONE -f ${OP
 
 # Create Hot Deployment Dir
 mkdir ${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps
+
+# Setup logging
+ln -s ${OPENSHIFT_DATA_DIR}/profile/logs/${servername}/SystemOut.log ${OPENSHIFT_LOG_DIR}/SystemOut.log
+ln -s ${OPENSHIFT_DATA_DIR}/profile/logs/${servername}/SystemErr.log ${OPENSHIFT_LOG_DIR}/SystemErr.log
 
 client_result "$log_manageprofiles_result"
 client_result ""
