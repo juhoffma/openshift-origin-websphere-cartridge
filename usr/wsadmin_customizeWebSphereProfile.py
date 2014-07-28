@@ -12,14 +12,14 @@ md = AdminConfig.showAttribute(c1, "monitoredDirectoryDeployment")
 AdminConfig.modify(md, [['enabled', "true"]])
 
 ###############################################################################
-# Set GEAR hostname for all virtual hosts
+# Virtual Hosts: make sure connections from every hostname are accepted
 ###############################################################################
 vhosts = AdminConfig.list('VirtualHost').split(java.lang.System.getProperty("line.separator"))
 for vhost in vhosts:
 	endpointString = AdminConfig.showAttribute(vhost, "aliases")
 	endpointList = endpointString[1:len(endpointString)-1].split(" ")
 	for endpoint in endpointList:
-		AdminConfig.modify(endpoint, '[[hostname "' + OPENSHIFT_GEAR_DNS + '"]]')
+		AdminConfig.modify(endpoint, '[[hostname "' + '*' + '"]]')
 
 ###############################################################################
 # Configure WebSphere to use a specific IP address

@@ -66,6 +66,7 @@ Endpoints:
   Mappings:
   - Frontend: '/ibm/console'
     Backend: '/ibm/console'
+    Options: {}
 - Private-IP-Name: IP
   Private-Port-Name: WC_ADMINHOST_SECURE_PORT
   Private-Port: 9043
