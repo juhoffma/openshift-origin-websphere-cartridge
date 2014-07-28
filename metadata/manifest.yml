@@ -44,7 +44,7 @@ Endpoints:
   - http
   - ws
   Options:
-    primary: false
+    primary: true
   Mappings:
   - Frontend: ''
     Backend: ''
@@ -62,18 +62,18 @@ Endpoints:
   - http
   - ws
   Options:
-    primary: true
+    primary: false
   Mappings:
-      - Frontend:      "/ibm/console"
-      - Backend:       "/ibm/console"
-- Private-IP-Name: IP
-  Private-Port-Name: WC_DEFAULTHOST_SECURE_PORT
-  Private-Port: 9443
-  Public-Port-Name: WC_DEFAULTHOST_SECURE_PROXY_PORT
+  - Frontend: '/ibm/console'
+    Backend: '/ibm/console'
 - Private-IP-Name: IP
   Private-Port-Name: WC_ADMINHOST_SECURE_PORT
   Private-Port: 9043
   Public-Port-Name: WC_ADMINHOST_SECURE_PROXY_PORT
+- Private-IP-Name: IP
+  Private-Port-Name: WC_DEFAULTHOST_SECURE_PORT
+  Private-Port: 9443
+  Public-Port-Name: WC_DEFAULTHOST_SECURE_PROXY_PORT
 - Private-IP-Name: IP
   Private-Port-Name: BOOTSTRAP_ADDRESS_PORT
   Private-Port: 2809
