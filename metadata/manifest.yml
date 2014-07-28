@@ -34,7 +34,7 @@ Subscribes:
     Required: false
 Scaling:
   Min: 1
-  Max: 1
+  Max: -1
 Endpoints:
 - Private-IP-Name: IP
   Private-Port-Name: WC_DEFAULTHOST_PORT
@@ -44,7 +44,7 @@ Endpoints:
   - http
   - ws
   Options:
-    primary: true
+    primary: false
   Mappings:
   - Frontend: ''
     Backend: ''
@@ -58,6 +58,14 @@ Endpoints:
   Private-Port-Name: WC_ADMINHOST_PORT
   Private-Port: 9060
   Public-Port-Name: WC_ADMINHOST_PROXY_PORT
+  Protocols:
+  - http
+  - ws
+  Options:
+    primary: true
+  Mappings:
+      - Frontend:      "/ibm/console"
+      - Backend:       "/ibm/console"
 - Private-IP-Name: IP
   Private-Port-Name: WC_DEFAULTHOST_SECURE_PORT
   Private-Port: 9443

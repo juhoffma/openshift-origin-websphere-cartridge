@@ -41,6 +41,7 @@ function stop {
 
     if [ -f $pidfile ]; then
       pid=$( /bin/cat $pidfile )
+      echo "Stopping WebSphere process with PID ${pid}..."
       /bin/kill $pid
       ret=$?
       if [ $ret -eq 0 ]; then
@@ -85,6 +86,5 @@ case "$1" in
 esac
 
 echo ''
-echo '######################################################################'
 echo '######################################################################'
 echo ''
