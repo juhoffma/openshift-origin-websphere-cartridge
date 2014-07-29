@@ -23,6 +23,19 @@ This cartridge will call `${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.
 
 The profile will have security enabled. An admin `username` and a `password` are generated at the time of creation and the `PerfTuningSetting` will be set to development.
 
+Access to WebSphere Admin Console
+---------------------------------
+PREFFERED - Option 1) After you have created your gear, do a `rhc port-forward <GEAR_NAME>` and open a browser with the following URL `https://<YOUR_LOCAL_IP>:9043/ibm/console`.
+
+Option 2) The Admin Console is also exposed via a separate external port that can be determined as follows:
+
+```
+rhc ssh <GEAR_NAME>
+export | grep WC_ADMINHOST_SECURE_PROXY_PORT
+```
+
+Now point your browser to the following URL: `https://<GEAR_DNS>:<WC_ADMINHOST_SECURE_PROXY_PORT>/ibm/console/logon.jsp` and enter your credentials. Unfortunately the Admin Console tries to redirect us to the local port 9043. That is why we have to enter the following URL manually: `https://<GEAR_DNS>:<WC_ADMINHOST_SECURE_PROXY_PORT>/ibm/console/login.do?action=secure`. :-)
+
 Installation of the cartridge
 -----------------------------
 
