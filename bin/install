@@ -27,6 +27,7 @@ client_result "Websphere version: ${version} created.  Please make note of these
 client_result ""
 client_result "       Username: $username"
 client_result "       Password: $password"
+client_result "       Admin Console: https://${OPENSHIFT_GEAR_DNS}:${OPENSHIFT_WEBSPHERE_WC_ADMINHOST_SECURE_PROXY_PORT}/ibm/console/logon.jsp"
 client_result ""
 client_result ""
 
@@ -45,15 +46,29 @@ ${OPENSHIFT_DATA_DIR}/profile/bin/wsadmin.sh -lang jython -conntype NONE -f ${OP
 
 # Create Hot Deployment Dir
 mkdir ${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps
+echo "${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps/servers/${servername}" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR
 
 # Setup logging
 ln -s ${OPENSHIFT_DATA_DIR}/profile/logs/${servername}/SystemOut.log ${OPENSHIFT_LOG_DIR}/SystemOut.log
 ln -s ${OPENSHIFT_DATA_DIR}/profile/logs/${servername}/SystemErr.log ${OPENSHIFT_LOG_DIR}/SystemErr.log
 
+# Prepare Build and Deploy for Sample Code
+OPENSHIFT_WEBSPHERE_MAVEN_DIR="${OPENSHIFT_DATA_DIR}/maven"
+OPENSHIFT_WEBSPHERE_MAVEN_REPO_DIR="${OPENSHIFT_WEBSPHERE_MAVEN_DIR}/repository"
+mkdir ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}
+mkdir ${OPENSHIFT_WEBSPHERE_MAVEN_REPO_DIR}
+cp ${OPENSHIFT_WEBSPHERE_DIR}/usr/settings.base.xml ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}
+cp ${OPENSHIFT_WEBSPHERE_DIR}/usr/settings.rhcloud.xml ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}
+sed -i "s|{MAVEN_REPO_PATH}|${OPENSHIFT_WEBSPHERE_MAVEN_REPO_DIR}|g" ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}/settings.base.xml
+sed -i "s|{MAVEN_REPO_PATH}|${OPENSHIFT_WEBSPHERE_MAVEN_REPO_DIR}|g" ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}/settings.rhcloud.xml
+sed -i "s/{APP_NAME}/${OPENSHIFT_APP_NAME}/g" ${OPENSHIFT_WEBSPHERE_DIR}/template/pom.xml
+
+# Finalize
+client_result "######################################################################"
 client_result "$log_manageprofiles_result"
-client_result ""
-client_result ""
+client_result "######################################################################"
 client_result "$log_manageprofiles_abouthisprofile"
+client_result "######################################################################"
 
 echo ''
 echo '######################################################################'

@@ -1,17 +1,102 @@
 #!/bin/bash
-echo ''
-echo '######################################################################'
-echo '# CONTROL                                                            #'
-echo '######################################################################'
-echo ''
-
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
-
 export PATH=${OPENSHIFT_WEBSPHERE_PROFILE}/bin:$PATH
-
 export STOPTIMEOUT=10
 
+function build() {
+  echo '>>> Processing action "BUILD"...'
+  echo "Building $cartridge_type cartridge..."
+
+  CONFIG_DIR="${OPENSHIFT_DATA_DIR}/maven"
+  OPENSHIFT_MAVEN_MIRROR="${CONFIG_DIR}/settings.base.xml"
+  if $(echo $OPENSHIFT_GEAR_DNS | egrep -qe "\.rhcloud\.com")
+  then
+      OPENSHIFT_MAVEN_MIRROR="${CONFIG_DIR}/settings.rhcloud.xml"
+  fi
+
+  max_memory_mb=${OPENSHIFT_GEAR_MEMORY_MB}
+
+  # If hot deploy is enabled, we need to restrict the Maven memory size to fit
+  # alongside the running application server. For now, just hard-code it to 64
+  # and figure out how to apply a scaling factor later.
+  if hot_deploy_enabled_for_latest_deployment
+  then
+      echo "Scaling down Maven heap settings due to presence of hot_deploy marker..."
+
+      if [ -z "$MAVEN_JVM_HEAP_RATIO" ]; then
+      MAVEN_JVM_HEAP_RATIO=0.25
+    fi
+  else
+    if [ -z "$MAVEN_JVM_HEAP_RATIO" ]; then
+      MAVEN_JVM_HEAP_RATIO=0.75
+    fi
+  fi
+
+  max_heap=$( echo "$max_memory_mb * $MAVEN_JVM_HEAP_RATIO" | bc | awk '{print int($1+0.5)}')
+
+  OPENSHIFT_MAVEN_XMX="-Xmx${max_heap}m"
+
+  if [ -z "$BUILD_NUMBER" ]
+  then
+      if force_clean_build_enabled_for_latest_deployment
+      then
+          echo "Force-clean build is enabled. Removing Maven dependencies..." 1>&2
+          rm -rf ${OPENSHIFT_HOMEDIR}.m2/* ${OPENSHIFT_HOMEDIR}.m2/.[^.]*
+      fi
+
+      if [ -f ${OPENSHIFT_REPO_DIR}pom.xml ] && ! marker_present skip_maven_build
+      then
+          pushd ${OPENSHIFT_REPO_DIR} > /dev/null
+
+          if [ -z "$MAVEN_OPTS" ]; then
+            export MAVEN_OPTS="$OPENSHIFT_MAVEN_XMX"
+          fi
+
+          if [ -z "$MAVEN_ARGS" ]; then
+            export MAVEN_ARGS="clean package -Popenshift -DskipTests"
+          fi
+
+          echo "Found pom.xml... attempting to build with 'mvn -e ${MAVEN_ARGS}'..."
+
+          if [ -n "$OPENSHIFT_MAVEN_MIRROR" ]
+          then
+              mvn --global-settings $OPENSHIFT_MAVEN_MIRROR --version
+              mvn --global-settings $OPENSHIFT_MAVEN_MIRROR $MAVEN_ARGS
+          else
+              mvn --version
+              mvn $MAVEN_ARGS
+          fi
+          popd > /dev/null
+
+          CART_NAME=${cartridge_type}
+      fi
+
+      if [ ! -f ${OPENSHIFT_REPO_DIR}pom.xml ]; then
+        echo "Skipping Maven build due to absence of 'pom.xml'..."      
+      fi
+
+      if marker_present "skip_maven_build"; then
+        echo "skip_maven_build marker found; build will be skipped..."
+      fi
+
+  fi
+
+}
+
+function deploy() {
+  echo '>>> Processing action "DEPLOY"...'
+  echo "Deploying $cartridge_type cartridge..."
+
+  # if repo/deployments has any files in it, sync them to $OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR
+  # and delete any files in $OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR that don't exist in
+  # repo/deployments
+  if [ "$(ls ${OPENSHIFT_REPO_DIR}/deployments 2>/dev/null)" ]; then
+    rsync -r --delete --exclude ".*" ${OPENSHIFT_REPO_DIR}/deployments/ $OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR
+  fi
+}
+
 function is_running {
+  echo '>>> Processing action "IS_RUNNING"...'
   pidfile=${OPENSHIFT_WEBSPHERE_PROFILE}/logs/${OPENSHIFT_WEBSPHERE_SERVERNAME}/${OPENSHIFT_WEBSPHERE_SERVERNAME}.pid
 
   if [ -f $pidfile ]; then
@@ -27,15 +112,17 @@ function is_running {
 }
 
 function start {
+  echo '>>> Processing action "START"...'
   if ! is_running; then
     echo "Starting ${OPENSHIFT_WEBSPHERE_SERVERNAME} using: startServer.sh ${OPENSHIFT_WEBSPHERE_SERVERNAME}"
     ${OPENSHIFT_WEBSPHERE_PROFILE}/bin/startServer.sh ${OPENSHIFT_WEBSPHERE_SERVERNAME}
   else
-    echo "Websphere already running" 1>&2
+    echo "Websphere already running." 1>&2
   fi
 }
 
 function stop {
+  echo '>>> Processing action "STOP"...'
   if is_running; then
     pidfile=${OPENSHIFT_WEBSPHERE_PROFILE}/logs/${OPENSHIFT_WEBSPHERE_SERVERNAME}/${OPENSHIFT_WEBSPHERE_SERVERNAME}.pid
 
@@ -54,37 +141,36 @@ function stop {
         done
       fi
     else
-      echo "Websphere already stopped" 1>&2
+      echo "Websphere already stopped." 1>&2
     fi
   fi
 }
 
+function restart() {
+  echo '>>> Processing action "RESTART"...'
+    stop
+    start
+}
+
 function status {
+  echo '>>> Processing action "STATUS"...'
   if is_running; then
-    client_result "Websphere is running" 
+    client_result "Websphere is running." 
   else
-    client_result "Websphere is stopped" 
+    client_result "Websphere is stopped." 
   fi
 
   exit 0
 }
 
 case "$1" in
-  start)
-    start
-  ;;
-  stop)
-    stop
-  ;;
-  status)
-    status
-  ;;
-  restart)
-    stop
-    start
-  ;;
+  build)           build ;;
+  deploy)          deploy ;;
+  start)           start ;;
+  stop)            stop;;
+  status)          status;;
+  restart)         restart;;
 esac
 
-echo ''
-echo '######################################################################'
+echo '<<<'
 echo ''
