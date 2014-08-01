@@ -38,7 +38,7 @@ echo "$servername" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_SERVERNA
 ln -s ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION} ${OPENSHIFT_WEBSPHERE_DIR}/install
 
 # Create WebSphere Profile
-log_manageprofiles_result=`${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create -profileName ${OPENSHIFT_GEAR_UUID} -profilePath ${OPENSHIFT_DATA_DIR}/profile -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ -enableAdminSecurity true -serverName ${servername} -adminUserName ${username} -adminPassword ${password} -hostName ${OPENSHIFT_WEBSPHERE_IP} -applyPerfTuningSetting development -defaultPorts -cellName OpenShiftCell -nodeName OpenShiftNode01`
+log_manageprofiles_result=`${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh -create -profileName ${OPENSHIFT_GEAR_UUID} -profilePath ${OPENSHIFT_DATA_DIR}/profile -templatePath ${OPENSHIFT_WEBSPHERE_INSTALL_LOCATION}/profileTemplates/default/ -enableAdminSecurity true -serverName ${servername} -adminUserName ${username} -adminPassword ${password} -hostName ${OPENSHIFT_WEBSPHERE_IP} -applyPerfTuningSetting development -defaultPorts -cellName OpenShiftCell -nodeName OpenShiftNode01 -omitAction deployIVTApplication defaultAppDeployAndConfig`
 log_manageprofiles_abouthisprofile=`cat ${OPENSHIFT_DATA_DIR}/profile/logs/AboutThisProfile.txt`
 
 # Customize WebSphere Profile
