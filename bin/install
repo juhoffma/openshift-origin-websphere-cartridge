@@ -18,16 +18,18 @@ echo 'Generating username and password'
 servername="server1"
 username="admin"
 password=$(generate_password)
+admin_console_url="https://${OPENSHIFT_GEAR_DNS}:${OPENSHIFT_WEBSPHERE_WC_ADMINHOST_SECURE_PROXY_PORT}/ibm/console/logon.jsp"
 
 echo "$username" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_ADMIN_USERNAME
 echo "$password" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_ADMIN_PASSWORD
+echo "$admin_console_url" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_ADMIN_CONSOLE_URL
 
 client_result ""
 client_result "Websphere version: ${version} created.  Please make note of these Administrative User credentials:"
 client_result ""
 client_result "       Username: $username"
 client_result "       Password: $password"
-client_result "       Admin Console: https://${OPENSHIFT_GEAR_DNS}:${OPENSHIFT_WEBSPHERE_WC_ADMINHOST_SECURE_PROXY_PORT}/ibm/console/logon.jsp"
+client_result "       Admin Console: $admin_console_url"
 client_result ""
 client_result ""
 
@@ -45,8 +47,9 @@ log_manageprofiles_abouthisprofile=`cat ${OPENSHIFT_DATA_DIR}/profile/logs/About
 ${OPENSHIFT_DATA_DIR}/profile/bin/wsadmin.sh -lang jython -conntype NONE -f ${OPENSHIFT_WEBSPHERE_DIR}/usr/wsadmin_customizeWebSphereProfile.py ${OPENSHIFT_GEAR_DNS} ${OPENSHIFT_WEBSPHERE_IP}
 
 # Create Hot Deployment Dir
-mkdir ${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps
-echo "${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps/servers/${servername}" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR
+hot_deployment_dir="${OPENSHIFT_DATA_DIR}/profile/monitoredDeployableApps/servers/${servername}"
+mkdir -p $hot_deployment_dir
+echo "$hot_deployment_dir" > ${OPENSHIFT_WEBSPHERE_DIR}/env/OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR
 
 # Setup logging
 ln -s ${OPENSHIFT_DATA_DIR}/profile/logs/${servername}/SystemOut.log ${OPENSHIFT_LOG_DIR}/SystemOut.log
@@ -62,6 +65,12 @@ cp ${OPENSHIFT_WEBSPHERE_DIR}/usr/settings.rhcloud.xml ${OPENSHIFT_WEBSPHERE_MAV
 sed -i "s|{MAVEN_REPO_PATH}|${OPENSHIFT_WEBSPHERE_MAVEN_REPO_DIR}|g" ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}/settings.base.xml
 sed -i "s|{MAVEN_REPO_PATH}|${OPENSHIFT_WEBSPHERE_MAVEN_REPO_DIR}|g" ${OPENSHIFT_WEBSPHERE_MAVEN_DIR}/settings.rhcloud.xml
 sed -i "s/{APP_NAME}/${OPENSHIFT_APP_NAME}/g" ${OPENSHIFT_WEBSPHERE_DIR}/template/pom.xml
+sed -i "s|{WEBSPHERE_ADMIN_CONSOLE_URL}|${admin_console_url}|g" ${OPENSHIFT_WEBSPHERE_DIR}/template/src/main/webapp/index.html
+
+# Create initial deployment
+pushd ${OPENSHIFT_WEBSPHERE_DIR}/template/src/main/webapp 1>/dev/null
+jar cvf $hot_deployment_dir/ROOT.war ./*
+popd 1> /dev/null
 
 # Finalize
 client_result "######################################################################"

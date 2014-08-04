@@ -116,6 +116,9 @@ function start {
   if ! is_running; then
     echo "Starting ${OPENSHIFT_WEBSPHERE_SERVERNAME} using: startServer.sh ${OPENSHIFT_WEBSPHERE_SERVERNAME}"
     ${OPENSHIFT_WEBSPHERE_PROFILE}/bin/startServer.sh ${OPENSHIFT_WEBSPHERE_SERVERNAME}
+    
+    # Trigger initial deployment after profile creation
+    touch -cf $OPENSHIFT_WEBSPHERE_DEPLOYMENT_DIR/ROOT.war
   else
     echo "Websphere already running." 1>&2
   fi

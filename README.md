@@ -51,12 +51,14 @@ Deployment
 ----------
 Hot Deployment is accomplished by using WebSphere's "Monitored Directory Deployment" feature (see official documentation here: http://www-01.ibm.com/support/knowledgecenter/SS7JFU_8.5.5/com.ibm.websphere.express.doc/ae/urun_app_global_deployment.html?lang=en). In order to deploy an EAR just put it in the following directory: `app-root/data/profile/monitoredDeployableApps/servers/server1`.
 
+In addition to this you can also Jenkins as a build server for your application. Just login to your OpenShift Console, select your WebSphere application and click `Enable Jenkins`. This will create a new Jenkins job for your application that will be triggered after each GIT push to your OpenShift instance.
+
 ToDo's
 ------
  
 - [ ] Work with managed profiles
 - [ ] Support Marker Files for different JDK's
 - [X] Enable Deployments through deployable apps
-- [ ] Provide a build lifecycle as with JBoss EAP cartridge
-- [ ] Provide an example app as with JBoss EAP cartridge
+- [X] Provide a build lifecycle as with JBoss EAP cartridge
+- [X] Provide an example app as with JBoss EAP cartridge
 - [X] Integrate Server's SysOut log in development tooling
