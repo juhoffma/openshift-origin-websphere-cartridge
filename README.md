@@ -169,19 +169,19 @@ C. Reference Information
 
 WebSphere specific
 ------------------
-Command reference "manageprofiles.sh" - http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.express.doc/ae/rxml_manageprofiles.html
-Disable Security HTTPS for Web App - http://www-01.ibm.com/support/docview.wss?uid=swg21408274
-Configure WebSphere to bind to specific IP - http://www-01.ibm.com/support/knowledgecenter/SSAW57_8.5.5/com.ibm.websphere.nd.doc/ae/trun_multiplenic.html?lang=en
-WebSphere Global Deployment Settings - http://www-01.ibm.com/support/knowledgecenter/SS7JFU_8.5.5/com.ibm.websphere.express.doc/ae/urun_app_global_deployment.html?lang=en
-WebSphere Auto Deployment - http://www.webspheretools.com/sites/webspheretools.nsf/docs/WebSphere%208%20Auto%20Deploy
-File Permissions for non-admin install - http://www-01.ibm.com/support/knowledgecenter/SS7JFU_8.5.5/com.ibm.websphere.express.doc/ae/tpro_nonrootpro.html?lang=en
+* Command reference "manageprofiles.sh" - http://pic.dhe.ibm.com/infocenter/wasinfo/v8r5/topic/com.ibm.websphere.express.doc/ae/rxml_manageprofiles.html
+* Disable Security HTTPS for Web App - http://www-01.ibm.com/support/docview.wss?uid=swg21408274
+* Configure WebSphere to bind to specific IP - http://www-01.ibm.com/support/knowledgecenter/SSAW57_8.5.5/com.ibm.websphere.nd.doc/ae/trun_multiplenic.html?lang=en
+* WebSphere Global Deployment Settings - http://www-01.ibm.com/support/knowledgecenter/SS7JFU_8.5.5/com.ibm.websphere.express.doc/ae/urun_app_global_deployment.html?lang=en
+* WebSphere Auto Deployment - http://www.webspheretools.com/sites/webspheretools.nsf/docs/WebSphere%208%20Auto%20Deploy
+* File Permissions for non-admin install - http://www-01.ibm.com/support/knowledgecenter/SS7JFU_8.5.5/com.ibm.websphere.express.doc/ae/tpro_nonrootpro.html?lang=en
 
 
 OpenShift specific
 ------------------
-Cartridge Developers Guide - http://openshift.github.io/documentation/oo_cartridge_developers_guide.html
-How to expose more than one public port - https://github.com/sosiouxme/diy-extra-port-cartridge/tree/ssl-hack and https://www.openshift.com/content/at-least-one-port-for-external-use-excluding-8080-please
-WebSphere Liberty Cartridge - https://github.com/opiethehokie/openshift-liberty-cartridge
+* Cartridge Developers Guide - http://openshift.github.io/documentation/oo_cartridge_developers_guide.html
+* How to expose more than one public port - https://github.com/sosiouxme/diy-extra-port-cartridge/tree/ssl-hack and https://www.openshift.com/content/at-least-one-port-for-external-use-excluding-8080-please
+* WebSphere Liberty Cartridge - https://github.com/opiethehokie/openshift-liberty-cartridge
 
 
 D. ToDo's
