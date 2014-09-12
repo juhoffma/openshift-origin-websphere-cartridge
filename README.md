@@ -21,19 +21,19 @@ The source code can be found here: https://github.com/juhoffma/openshift-origin-
 
 Screenshots
 ------------------
-![1. Create new Gear](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/01_ose_create_new_gear.png)
+![1. Create new Gear](./usr/doc/01_ose_create_new_gear.png)
 
-![2. Select WebSphere Application Server Cartridge](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/02_ose_create_new_was_cart.png)
+![2. Select WebSphere Application Server Cartridge](./usr/doc/02_ose_create_new_was_cart.png)
 
-![3. Cartridge creation is finished](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/03_ose_create_new_was_cart_finished.png)
+![3. Cartridge creation is finished](./usr/doc/03_ose_create_new_was_cart_finished.png)
 
-![4. Overview of newly created application](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/04_was_application_overview.png)
+![4. Overview of newly created application](./usr/doc/04_was_application_overview.png)
 
-![5. View of created sample application](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/05_application_demo.png)
+![5. View of created sample application](./usr/doc/05_application_demo.png)
 
-![6. Demo of WebSphere Admin Console](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/06_was_admin_console.png)
+![6. Demo of WebSphere Admin Console](./usr/doc/06_was_admin_console.png)
 
-![7. Integration into JBoss Developer Studio](https://github.com/juhoffma/openshift-origin-websphere-cartridge/tree/master/usr/doc/08_jbds_integration.png)
+![7. Integration into JBoss Developer Studio](./usr/doc/08_jbds_integration.png)
 
 B. Installation
 ===============
