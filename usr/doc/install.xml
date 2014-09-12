@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<agent-input clean='true' temporary='true'>
+<server>
+   <repository location='.'/>
+   <repository location='http://www.ibm.com/software/repositorymanager/V85WASDeveloperILANL'/>
+</server>
+<install>
+   <offering features='agent_core,agent_jre' id='com.ibm.cic.agent' version='1.6.2000.20130301_2248' />
+   <offering id='com.ibm.websphere.DEVELOPERSILAN.v85'  version='8.5.5001.20131018_2242' profile='IBM WebSphere Application Server V8.5' features='com.ibm.sdk.6_64bit,core.feature,ejbdeploy,thinclient,embeddablecontainer' installFixes='none'/>
+</install>
+</agent-input>
