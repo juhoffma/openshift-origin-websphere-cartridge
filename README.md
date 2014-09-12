@@ -181,7 +181,7 @@ OpenShift specific
 ------------------
 * Cartridge Developers Guide - http://openshift.github.io/documentation/oo_cartridge_developers_guide.html
 * How to expose more than one public port - https://github.com/sosiouxme/diy-extra-port-cartridge/tree/ssl-hack and https://www.openshift.com/content/at-least-one-port-for-external-use-excluding-8080-please
-* WebSphere Liberty Cartridge - https://github.com/opiethehokie/openshift-liberty-cartridge
+* WebSphere Liberty Cartridge - https://github.com/WASdev/cloud.openshift.cartridge.wlp
 
 
 D. ToDo's
