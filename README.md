@@ -6,7 +6,7 @@ A. Synopsis
 
 What this is about
 ------------------
-We've created a IBM WebSphere Application Server cartridge in order to demonstrate the power and flexibility of Red Hat's Open Hybrid Cloud strategy. The main focus for this cartridge is OpenShift Enterprise (https://www.redhat.com/de/technologies/cloud-computing/openshift). At this point in time this cartridge can be considered rather as a Proof of Concept cartridge, as its sole purpose is to show that an integration is indeed possible.
+We've created a IBM WebSphere Application Server cartridge in order to demonstrate the power and flexibility of Red Hat's Open Hybrid Cloud strategy. The main focus for this cartridge is OpenShift Enterprise (https://www.redhat.com/de/technologies/cloud-computing/openshift). 
 
 The cartridge currently supports the following features:
 
@@ -37,7 +37,7 @@ Screenshots
 
 B. Installation
 ===============
- 
+
 1. Setup OSE Environment
 ------------------------
 You have the following deployment options for this cartridge:
@@ -46,7 +46,7 @@ You have the following deployment options for this cartridge:
 * OpenShift Enterprise developer image (https://rhn.redhat.com/rhn/software/channel/downloads/Download.do?cid=21355)
 * Standalone installation of Red Hat OpenShift Enterprise.
 
- 
+
 2. WebSphere Application Server Installation
 --------------------------------------------
 
@@ -84,7 +84,7 @@ su -
 ### Non-Root permissions
 In order to create profiles by non-root users, special file permission settings have to be set on your WebSphere installation. Please follow the steps described here: http://www-01.ibm.com/support/knowledgecenter/SS7JFU_8.5.5/com.ibm.websphere.express.doc/ae/tpro_nonrootpro.html?lang=en
 
- 
+
 
 ### Installation Result
 After successfully executing the above steps you have installed the following components:
@@ -116,13 +116,13 @@ oo-admin-ctl-cartridge --activate -c import-node --obsolete
 oo-admin-broker-cache --clear && oo-admin-console-cache --clear
 ```
 
- 
+
 B. Administration and configuration
 ===================================
 
 Configure a custom installation location for IBM WebSphere Application Server
 -----------------------------------------------------------------------------
-This cartridge needs an existing installation of the WebSpehere Application Server on each of your nodes. You need to define the location of the installation through a system wide environment variable 
+This cartridge needs an existing installation of the WebSpehere Application Server on each of your nodes. You need to define the location of the installation through a system wide environment variable
 
 ```
 echo "/opt/IBM/WebSphere/AppServer" > /etc/openshift/env/OPENSHIFT_WEBSPHERE_INSTALL_LOCATION
@@ -138,7 +138,7 @@ The file permissions of your WebSphere installation must be set to allow non-roo
 
 How profile creation works
 --------------------------
-This cartridge will call `${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh` and create a profile with the name ${OPENSHIFT_APP_NAME}. The profile will be created underneath the `profile` directory inside your gears `data` directory. 
+This cartridge will call `${OPENSHIFT_WEBSPHERE_DIR}/install/bin/manageprofiles.sh` and create a profile with the name ${OPENSHIFT_APP_NAME}. The profile will be created underneath the `profile` directory inside your gears `data` directory.
 
 The profile will have security enabled. An admin `username` and a `password` are generated at the time of creation and the `PerfTuningSetting` will be set to development.
 
@@ -186,7 +186,7 @@ OpenShift specific
 
 D. ToDo's
 =========
- 
+
 - [ ] Work with managed profiles
 - [ ] Support Marker Files for different JDK's
 - [X] Enable Deployments through deployable apps
